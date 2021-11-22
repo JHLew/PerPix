@@ -44,13 +44,13 @@ def train(config, epoch_from=0):
     save_path_G = config['path']['ckpt']
     generator.load_state_dict(torch.load(save_path_G))
 
-    predictor = Predictor(config['model']['scale'], config['model']['code_len']).cuda()
+    predictor = Predictor(config['model']['code_len']).cuda()
     save_path_P = save_path_G[:-4] + '_Predictor.pth'
     predictor.load_state_dict(torch.load(save_path_P))
     for param in predictor.parameters():
         param.requires_grad = False
 
-    save_path_G = save_path_G[:-4] + '_tuned_for_P.pth'
+    save_path_G = save_path_G[:-4] + '_tuned.pth'
 
     # optimizer
     learning_rate = config['train']['lr_T']

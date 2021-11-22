@@ -20,7 +20,6 @@ from utils import multiple_downsample, kernel_collage
 def train(config, epoch_from=0):
     dataParallel = True
     kernel_size = config['model']['kernel_size']
-    # loss_option = 3  # 1 for direct loss, 2 for GT, 3 for indirect loss
 
     print('process before training...')
     train_dataset = dataset(config['path']['dataset']['train'], patch_size=config['train']['patch size'],
@@ -46,7 +45,7 @@ def train(config, epoch_from=0):
     for param in generator.parameters():
         param.requires_grad = False
 
-    predictor = Predictor(config['model']['scale'], config['model']['code_len']).cuda()
+    predictor = Predictor(config['model']['code_len']).cuda()
     save_path_P = save_path_G[:-4] + '_Predictor.pth'
 
     # optimizer
@@ -120,7 +119,7 @@ def train(config, epoch_from=0):
             lr = multiple_downsample(hr, kernels, config['model']['scale'])
             lr, gt_k_map = kernel_collage(lr, k_code)
 
-            # if loss_option == 1:
+            # if direct loss on kernel map
             #     pred_k_map = predictor(lr)
             #     p_loss = loss(pred_k_map, gt_k_map)
             #
@@ -130,7 +129,7 @@ def train(config, epoch_from=0):
             #     P_optimizer.step()
             #     epoch_loss += p_loss.item()
             #
-            # elif loss_option == 2:
+            # if reconstruction with GT HR image
             #     gt = gt.cuda()
             #     pred_k_map = predictor(lr)
             #     sr = generator(lr, pred_k_map)
@@ -142,8 +141,8 @@ def train(config, epoch_from=0):
             #     P_optimizer.step()
             #     epoch_loss += p_loss.item()
             #
-            # elif loss_option == 3:
 
+            # with our proposed indirect reconstruction loss
             with torch.no_grad():
                 gt = generator(lr, gt_k_map)
 

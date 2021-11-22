@@ -149,9 +149,8 @@ class PerPix_SFTMD(nn.Module):
 
 
 class Predictor(nn.Module):
-    def __init__(self, scale, code_len=3):
+    def __init__(self, code_len=3):
         super(Predictor, self).__init__()
-        self.scale = scale
         self.code_len = code_len
 
         self.layers = nn.Sequential(

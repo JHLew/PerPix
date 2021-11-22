@@ -181,9 +181,7 @@ def downsample_via_kcode(hr, kmap, scale=4):
 def visualize_kmap(kmap, s=1, out_dir='./', tag=None, ksize=49, each=False):
     import cv2
     out_dir = os.path.join(out_dir, 'visualized_kmap')
-    if not os.path.exists(out_dir):
-        print('making directory for kernel map visualization...')
-        os.makedirs(out_dir)
+    os.makedirs(out_dir, exist_ok=True)
     if each:
         out_dir = os.path.join(out_dir, tag)
         os.makedirs(out_dir, exist_ok=True)
