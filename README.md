@@ -3,5 +3,7 @@ code for "Pixel-level Kernel Estimation for Blind Super-Resolution", IEEE Access
 
 ## Inference
 simply run the code as the following:
-$ python inference.py --ckpt PerPix_x4 --input_dir /path/to/input/images --tuned
+```
+$ python inference.py --ckpt PerPix_x4 --in_dir /path/to/input/images --tuned
+```
 this will produce and save super-resolved results at ./output
